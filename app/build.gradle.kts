@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    id("com.google.devtools.ksp") version "2.0.0-1.0.23"
 }
 
 android {
@@ -48,7 +50,6 @@ android {
         }
     }
 }
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -67,12 +68,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-//    implementation(libs.coil.compose)
-//    implementation(libs.coil.kt.coil.gif)
-
-    implementation(libs.lottie.compose)
-
-    // Rive
+    // Rive Animation
     implementation(libs.rive.android)
     implementation(libs.androidx.startup.runtime)
 
@@ -81,4 +77,12 @@ dependencies {
 
     // SystemUIController
     implementation(libs.accompanist.systemuicontroller)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    implementation("com.google.code.gson:gson:2.8.8")
 }
