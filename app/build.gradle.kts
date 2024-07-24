@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp") version "2.0.0-1.0.23"
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -60,6 +61,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -84,5 +86,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
-    implementation("com.google.code.gson:gson:2.8.8")
+    implementation(libs.gson)
+
+    //Dagger
+    implementation (libs.hilt.android)
+    ksp (libs.hilt.compiler)
 }
