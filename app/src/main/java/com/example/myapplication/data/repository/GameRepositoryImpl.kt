@@ -13,7 +13,10 @@ class GameRepositoryImpl @Inject constructor(
     private val gameDao: GameDao
 ) : GameRepository {
 
-    override fun getNodes(): LiveData<List<Node>> = gameDao.getAllNodes().map { it.toDto() }
+    private val translations = gameDao.getAllTranslations()
+
+    override fun getNodes(): LiveData<List<Node>> =
+        gameDao.getAllNodes().map { list -> list.toDto(translations) }
 
     override suspend fun insertNodes(nodes: List<NodeEntity>) {
         gameDao.insertNodes(nodes)

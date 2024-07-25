@@ -2,12 +2,14 @@ package com.example.myapplication.domain.dto
 
 import com.example.myapplication.app.viewModel.GameViewModel
 import com.example.myapplication.data.entity.NodeEntity.Companion.fromDto
+import com.example.myapplication.data.entity.NodeTranslationEntity
 import javax.inject.Inject
 
 class GameInitializer @Inject constructor(
     private val viewModel: GameViewModel
 ) {
     private val nodes = mutableMapOf<String, Node>()
+    private val translations = mutableListOf<NodeTranslationEntity>()
 
     fun initialize() {
         createNodes()
@@ -103,10 +105,32 @@ class GameInitializer @Inject constructor(
         nodes["node13"]?.edges = Edges(listOf(Edge(1, "Дальше", 14)))
     }
 
+    private fun addTranslations() {
+        translations.add(
+            NodeTranslationEntity(
+                0,
+                nodes["node1"]!!.id,
+                "ru",
+                "Добро пожаловать, хочешь помочь?"
+            )
+        )
+        translations.add(
+            NodeTranslationEntity(
+                0,
+                nodes["node2"]!!.id,
+                "en",
+                "Welcome, do you want to help?"
+            )
+        )
+        translations.add(NodeTranslationEntity(0, nodes["node3"]!!.id, "ru", "Прекрасно"))
+        translations.add(NodeTranslationEntity(0, nodes["node4"]!!.id, "en", "Great"))
+    }
+
     private fun saveToDatabase() {
         val nodeEntities = nodes.values.map { node ->
             fromDto(node)
         }
         viewModel.insertNodes(nodeEntities)
+        viewModel.addTranslation(0, "ru", "Добро пожаловать, хочешь помочь?")
     }
 }

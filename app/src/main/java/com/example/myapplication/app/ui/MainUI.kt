@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 import com.example.myapplication.app.ui.util.splitBitmap
 import com.example.myapplication.app.viewModel.GameViewModel
+import com.example.myapplication.domain.dto.CharacterType
 import com.example.myapplication.domain.dto.Node
 
 @Composable
@@ -62,6 +63,11 @@ fun MainUI(viewModel: GameViewModel) {
         )
 
         currentNode?.let { nodeWithEdges ->
+            val color = when (nodeWithEdges.characterType) {
+                CharacterType.PLAYER -> Color.Blue
+                CharacterType.EMILY -> Color.Red
+                CharacterType.VOICE_OVER -> Color.White
+            }
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -70,7 +76,7 @@ fun MainUI(viewModel: GameViewModel) {
                 Text(
                     text = nodeWithEdges.message,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
+                    color = color,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                 )
@@ -156,9 +162,3 @@ fun PanoramaView(
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    MainUI()
-//}
