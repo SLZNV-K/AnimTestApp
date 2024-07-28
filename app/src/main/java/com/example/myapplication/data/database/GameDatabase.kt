@@ -7,7 +7,7 @@ import com.example.myapplication.data.dao.GameDao
 import com.example.myapplication.data.entity.NodeEntity
 import com.example.myapplication.data.entity.NodeTypeConverter
 
-@Database(entities = [NodeEntity::class], version = 3, exportSchema = false)
+@Database(entities = [NodeEntity::class], version = 5, exportSchema = false)
 @TypeConverters(NodeTypeConverter::class)
 abstract class GameDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao

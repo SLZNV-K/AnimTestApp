@@ -22,6 +22,7 @@ class DbModule {
         context: Context
     ): GameDatabase = Room.databaseBuilder(context, GameDatabase::class.java, "app.db")
         .fallbackToDestructiveMigration()
+        .createFromAsset("database/nodes.db")
         .build()
 
     @Provides

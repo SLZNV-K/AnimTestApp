@@ -11,22 +11,18 @@ class NodeTypeConverter {
     private val gson = Gson()
 
     @TypeConverter
-    fun nodeToJson(node: NodeEntity?): String? {
-        return gson.toJson(node)
+    fun edgeListToJson(edges: List<Edge>?): String? {
+        if (edges.isNullOrEmpty()) {
+            return null
+        }
+        return gson.toJson(edges)
     }
 
     @TypeConverter
-    fun jsonToNode(json: String?): NodeEntity? {
-        return gson.fromJson(json, NodeEntity::class.java)
-    }
-
-    @TypeConverter
-    fun choiceListToJson(choices: List<Edge>?): String? {
-        return gson.toJson(choices)
-    }
-
-    @TypeConverter
-    fun jsonToList(json: String?): List<Edge>? {
+    fun jsonToListEdge(json: String?): List<Edge>? {
+        if (json.isNullOrEmpty()) {
+            return emptyList()
+        }
         return gson.fromJson(json, object : TypeToken<List<Edge>>() {}.type)
     }
 }

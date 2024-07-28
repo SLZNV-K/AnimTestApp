@@ -5,7 +5,7 @@ data class Node(
     val message: String,
     var edges: Edges = Edges(),
     val foreground: Int = 0,
-    val emilyAnim: Int = 0,
+    val anim: Int = 0,
     val characterType: CharacterType = CharacterType.VOICE_OVER
 )
 

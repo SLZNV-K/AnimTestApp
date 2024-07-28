@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,17 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.app.ui.components.CharacterDialog
+import com.example.myapplication.app.ui.components.ComposableRiveAnimationView
 import com.example.myapplication.app.ui.util.splitBitmap
 import com.example.myapplication.app.viewModel.GameViewModel
+import com.example.myapplication.domain.dto.CharacterType
 import com.example.myapplication.domain.dto.Node
 
 @Composable
 fun MainUI(viewModel: GameViewModel) {
     val nodes by viewModel.allNodes.observeAsState(emptyList())
+    println(nodes)
 
     var currentNode by remember { mutableStateOf<Node?>(null) }
 
@@ -67,13 +68,15 @@ fun MainUI(viewModel: GameViewModel) {
                     .padding(16.dp)
                     .align(Alignment.BottomCenter)
             ) {
-                Text(
-                    text = nodeWithEdges.message,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
+
+                val modifier = Modifier.align(
+                    when (nodeWithEdges.characterType) {
+                        CharacterType.PLAYER -> Alignment.End
+                        CharacterType.EMILY -> Alignment.Start
+                        CharacterType.VOICE_OVER -> Alignment.CenterHorizontally
+                    }
                 )
+                CharacterDialog(node = nodeWithEdges, modifier = modifier)
 
                 nodeWithEdges.edges.edges.forEach { edge ->
                     Button(
@@ -156,9 +159,3 @@ fun PanoramaView(
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    MainUI()
-//}
