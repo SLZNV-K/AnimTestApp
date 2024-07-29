@@ -2,7 +2,8 @@ package com.example.myapplication.app.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.myapplication.data.dao.GameDao
+import com.example.myapplication.data.dao.NodeDao
+import com.example.myapplication.data.dao.TranslationDao
 import com.example.myapplication.data.database.GameDatabase
 import dagger.Module
 import dagger.Provides
@@ -23,8 +24,12 @@ class DbModule {
     ): GameDatabase = Room.databaseBuilder(context, GameDatabase::class.java, "app.db")
         .fallbackToDestructiveMigration()
         .createFromAsset("database/nodes.db")
+//        .createFromAsset("database/translation.db")
         .build()
 
     @Provides
-    fun providePostDao(graphDb: GameDatabase): GameDao = graphDb.gameDao()
+    fun provideGameDao(graphDb: GameDatabase): NodeDao = graphDb.gameDao()
+
+    @Provides
+    fun provideTranslationDao(graphDb: GameDatabase): TranslationDao = graphDb.translationDao()
 }

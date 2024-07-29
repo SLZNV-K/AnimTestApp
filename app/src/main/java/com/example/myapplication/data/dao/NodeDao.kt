@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.example.myapplication.data.entity.NodeEntity
 
 @Dao
-interface GameDao {
+interface NodeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNodes(nodes: List<NodeEntity>)
 

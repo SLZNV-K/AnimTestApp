@@ -120,7 +120,7 @@ fun CharacterDialog(
 
 @Composable
 fun TriangleShape() {
-    Canvas(modifier = Modifier.size(100.dp)) {
+    Canvas(modifier = Modifier.size(40.dp)) {
         val trianglePath = Path().apply {
             moveTo(0f, 0f)
             lineTo(size.width, size.height)
