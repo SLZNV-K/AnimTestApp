@@ -1,17 +1,16 @@
 package com.example.myapplication.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myapplication.data.entity.NodeEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NodeDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNodes(nodes: List<NodeEntity>)
 
     @Query("SELECT * FROM nodes")
-    fun getAllNodes(): LiveData<List<NodeEntity>>
+    fun getAllNodes(): Flow<List<NodeEntity>>
+
+    @Query("SELECT message FROM nodes WHERE id = :nodeId")
+    suspend fun getMessage(nodeId: Int): String
 }

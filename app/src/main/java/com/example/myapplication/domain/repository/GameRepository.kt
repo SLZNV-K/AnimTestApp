@@ -1,8 +1,8 @@
 package com.example.myapplication.domain.repository
 
-import androidx.lifecycle.LiveData
 import com.example.myapplication.domain.dto.Node
+import kotlinx.coroutines.flow.Flow
 
 interface GameRepository {
-    fun getNodes(): LiveData<List<Node>>
+    suspend fun getNodes(): Flow<List<Node>>
 }

@@ -62,10 +62,11 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.media3.exoplayer)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom.v20230300))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
@@ -89,6 +90,10 @@ dependencies {
     implementation(libs.gson)
 
     //Dagger
-    implementation (libs.hilt.android)
-    ksp (libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.exoplayer.core)
+    implementation(libs.exoplayer.ui)
+
 }

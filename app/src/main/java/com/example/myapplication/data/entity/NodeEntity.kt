@@ -28,18 +28,6 @@ data class NodeEntity(
         anim = anim,
         characterType = characterType
     )
-
-    companion object {
-        fun fromDto(dto: Node) =
-            NodeEntity(
-                id = dto.id,
-                message = dto.message,
-                edges = dto.edges,
-                foreground = dto.foreground,
-                anim = dto.anim,
-                characterType = dto.characterType
-            )
-    }
 }
 
 fun List<NodeEntity>.toDto(): List<Node> = map(NodeEntity::toDto)

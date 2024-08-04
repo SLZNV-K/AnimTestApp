@@ -9,12 +9,8 @@ data class Node(
     val characterType: CharacterType = CharacterType.VOICE_OVER
 )
 
-enum class CharacterType(private val displayName: String) {
+enum class CharacterType(displayName: String) {
     PLAYER("Player"),
     EMILY("Emily"),
     VOICE_OVER("Voice over");
-
-    override fun toString(): String {
-        return displayName
-    }
 }
