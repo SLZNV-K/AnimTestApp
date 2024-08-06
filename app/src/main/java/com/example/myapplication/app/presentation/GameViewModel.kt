@@ -1,4 +1,4 @@
-package com.example.myapplication.app.viewModel
+package com.example.myapplication.app.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,9 +18,14 @@ class GameViewModel @Inject constructor(
 ) : ViewModel() {
 
     var allNodes: Flow<List<Node>> = MutableStateFlow(emptyList())
+    var currentNode: Node? = null
 
     init {
         loadNodes()
+    }
+
+    fun updateCurrentNode(node: Node) {
+        currentNode = node
     }
 
     private fun loadNodes() = viewModelScope.launch {

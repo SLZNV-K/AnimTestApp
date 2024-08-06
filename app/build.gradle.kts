@@ -71,6 +71,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation("androidx.lifecycle:lifecycle-runtime-compose: 2.6.0-rc01")
+
     // Rive Animation
     implementation(libs.rive.android)
     implementation(libs.androidx.startup.runtime)

@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.example.myapplication.app.ui.MainUiComposable
-import com.example.myapplication.app.viewModel.GameViewModel
+import com.example.myapplication.app.presentation.MainUiComposable
+import com.example.myapplication.app.presentation.GameViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

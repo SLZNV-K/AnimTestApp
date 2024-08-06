@@ -1,4 +1,4 @@
-package com.example.myapplication.app.ui.components
+package com.example.myapplication.app.presentation.components
 
 import androidx.annotation.RawRes
 import androidx.compose.runtime.Composable

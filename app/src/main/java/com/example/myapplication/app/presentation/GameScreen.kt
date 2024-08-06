@@ -1,4 +1,4 @@
-package com.example.myapplication.app.ui
+package com.example.myapplication.app.presentation
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -38,10 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.myapplication.R
-import com.example.myapplication.app.ui.components.CharacterDialog
-import com.example.myapplication.app.ui.theme.Purple40
-import com.example.myapplication.app.ui.util.splitBitmap
-import com.example.myapplication.app.viewModel.GameViewModel
+import com.example.myapplication.app.presentation.components.CharacterDialog
+import com.example.myapplication.app.presentation.theme.Purple40
+import com.example.myapplication.app.presentation.util.splitBitmap
 import com.example.myapplication.domain.dto.CharacterType
 import com.example.myapplication.domain.dto.Node
 import com.google.android.exoplayer2.ExoPlayer
@@ -52,19 +51,24 @@ import com.google.android.exoplayer2.ui.PlayerView
 @Composable
 fun MainUiComposable(viewModel: GameViewModel) {
     val nodes by viewModel.allNodes.collectAsState(emptyList())
-    MainUiComposable(nodes = nodes)
+    val currentNode = viewModel.currentNode
+    MainUiComposable(nodes = nodes, currentNode) { viewModel.updateCurrentNode(it) }
 }
 
 @Composable
-private fun MainUiComposable(nodes: List<Node>) {
+private fun MainUiComposable(
+    nodes: List<Node>,
+    currentNode: Node?,
+    updateCurrentNode: (Node) -> Unit
+) {
     val backgroundColor = Purple40
-    var currentNode by remember { mutableStateOf<Node?>(null) }
+    var currentNodeValue by remember { mutableStateOf(currentNode) }
 
     LaunchedEffect(nodes) {
         if (currentNode == null && nodes.isNotEmpty()) {
-            currentNode = nodes.firstOrNull { it.id == 1 }
-            println("Current Node: $currentNode")
-        }
+            currentNodeValue = nodes.firstOrNull { it.id == 1 }
+            println("Current Node: $currentNodeValue")
+        } else currentNodeValue = currentNode
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -72,7 +76,7 @@ private fun MainUiComposable(nodes: List<Node>) {
             modifier = Modifier.fillMaxSize(),
         )
 
-        currentNode?.let { nodeWithEdges ->
+        currentNodeValue?.let { nodeWithEdges ->
             Column(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -107,7 +111,8 @@ private fun MainUiComposable(nodes: List<Node>) {
                                     val nextNode =
                                         nodes.firstOrNull { it.id == edge.nextNodeId }
                                     if (nextNode != null) {
-                                        currentNode = nextNode
+                                        currentNodeValue = nextNode
+                                        updateCurrentNode(nextNode)
                                     }
                                 }
                         ) {

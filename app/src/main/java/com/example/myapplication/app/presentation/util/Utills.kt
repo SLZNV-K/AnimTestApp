@@ -1,4 +1,4 @@
-package com.example.myapplication.app.ui.util
+package com.example.myapplication.app.presentation.util
 
 import android.graphics.Bitmap
 

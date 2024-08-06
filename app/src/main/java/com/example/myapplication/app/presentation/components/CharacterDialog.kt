@@ -1,4 +1,4 @@
-package com.example.myapplication.app.ui.components
+package com.example.myapplication.app.presentation.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myapplication.app.ui.theme.Purple40
+import com.example.myapplication.app.presentation.theme.Purple40
 import com.example.myapplication.domain.dto.CharacterType
 import com.example.myapplication.domain.dto.Edges
 import com.example.myapplication.domain.dto.Node
@@ -133,7 +133,7 @@ fun TriangleShapeWithBorder(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
     colorBorder: Color = Purple40,
-    triangleSize: Dp = 48.2.dp,
+    triangleSize: Dp = 48.9.dp,
     mirrorHorizontal: Boolean = false,
 ) {
     Box(

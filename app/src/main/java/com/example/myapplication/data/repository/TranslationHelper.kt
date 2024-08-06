@@ -26,6 +26,6 @@ class TranslationHelper(
 
         val translation = translationsEdgeMessageDao.getTranslation(id, nodeId, currentLanguage)
         return translation
-            ?: nodeDao.getMessage(nodeId)
+            ?: nodeDao.getEdges(nodeId).edges.find { it.id == id }?.message ?: ""
     }
 }
