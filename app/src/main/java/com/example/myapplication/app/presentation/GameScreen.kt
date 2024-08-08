@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.view.View
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
@@ -39,14 +42,15 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.myapplication.R
 import com.example.myapplication.app.presentation.components.CharacterDialog
+import com.example.myapplication.app.presentation.theme.Pink40
 import com.example.myapplication.app.presentation.theme.Purple40
 import com.example.myapplication.app.presentation.util.splitBitmap
-import com.example.myapplication.domain.dto.CharacterType
 import com.example.myapplication.domain.dto.Node
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerView
+import kotlinx.coroutines.delay
 
 @Composable
 fun MainUiComposable(viewModel: GameViewModel) {
@@ -63,74 +67,82 @@ private fun MainUiComposable(
 ) {
     val backgroundColor = Purple40
     var currentNodeValue by remember { mutableStateOf(currentNode) }
+    var visible by remember { mutableStateOf(true) }
+
+    val brush = Brush.verticalGradient(
+        colors = listOf(
+            Pink40,
+            Color.White,
+        )
+    )
 
     LaunchedEffect(nodes) {
         if (currentNode == null && nodes.isNotEmpty()) {
             currentNodeValue = nodes.firstOrNull { it.id == 1 }
             println("Current Node: $currentNodeValue")
         } else currentNodeValue = currentNode
+
+        // Запуск анимации появления при изменении узла
+        visible = false
+        delay(1000)
+        visible = true
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         PanoramaView(
             modifier = Modifier.fillMaxSize(),
         )
-
-        currentNodeValue?.let { nodeWithEdges ->
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .align(Alignment.Center)
-            ) {
-                Spacer(modifier = Modifier.height(500.dp))
-                val modifier = Modifier.align(
-                    when (nodeWithEdges.characterType) {
-                        CharacterType.PLAYER -> Alignment.End
-                        CharacterType.EMILY -> Alignment.Start
-                        CharacterType.VOICE_OVER -> Alignment.CenterHorizontally
-                    }
-                )
-                CharacterDialog(node = nodeWithEdges, modifier = modifier)
-
+        Crossfade(
+            targetState = currentNodeValue,
+            label = "",
+            animationSpec = tween(durationMillis = 2000)
+        ) { nodeWithEdges ->
+            if (nodeWithEdges != null) {
                 Column(
                     modifier = Modifier
+                        .padding(horizontal = 16.dp)
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .background(
-                            backgroundColor,
-                            shape = RoundedCornerShape(bottomEnd = 8.dp, bottomStart = 8.dp)
-                        )
                 ) {
-                    nodeWithEdges.edges.edges.forEach { edge ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                                .background(Color.White, shape = RoundedCornerShape(8.dp))
-                                .clickable {
-                                    val nextNode =
-                                        nodes.firstOrNull { it.id == edge.nextNodeId }
-                                    if (nextNode != null) {
-                                        currentNodeValue = nextNode
-                                        updateCurrentNode(nextNode)
-                                    }
-                                }
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(16.dp),
-                                text = edge.message,
-                                fontSize = 16.sp,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                    Spacer(
+                    Spacer(modifier = Modifier.height(450.dp))
+                    CharacterDialog(
+                        node = nodeWithEdges,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(4.dp)
-                    )
+                            .padding(horizontal = 20.dp)
+                            .background(
+                                backgroundColor,
+                                shape = RoundedCornerShape(bottomEnd = 8.dp, bottomStart = 8.dp)
+                            )
+//                                .animateContentSize() // Это анимирует изменения размеров блока кнопок
+                    ) {
+                        nodeWithEdges.edges.edges.forEach { edge ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .background(brush = brush, shape = RoundedCornerShape(8.dp))
+                                    .clickable {
+                                        val nextNode =
+                                            nodes.firstOrNull { it.id == edge.nextNodeId }
+                                        if (nextNode != null) {
+                                            currentNodeValue = nextNode
+                                            updateCurrentNode(nextNode)
+                                        }
+                                    }
+                            ) {
+                                Text(
+                                    modifier = Modifier.padding(16.dp),
+                                    text = edge.message,
+                                    fontSize = 16.sp,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
+                        }
+                    }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
             }
         }
     }

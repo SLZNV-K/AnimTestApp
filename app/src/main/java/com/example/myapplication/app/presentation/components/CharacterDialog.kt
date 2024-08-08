@@ -14,12 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.app.presentation.theme.Pink80
 import com.example.myapplication.app.presentation.theme.Purple40
 import com.example.myapplication.domain.dto.CharacterType
 import com.example.myapplication.domain.dto.Edges
@@ -49,7 +51,14 @@ fun CharacterDialog(
                     .padding(4.dp)
                     .padding(top = 4.dp)
                     .padding(horizontal = 4.dp)
-                    .background(backgroundColor, shape = RoundedCornerShape(8.dp))
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Pink80,
+                                backgroundColor,
+                            )
+                        ), shape = RoundedCornerShape(8.dp)
+                    )
             ) {
                 Text(
                     modifier = Modifier.padding(16.dp),
@@ -107,7 +116,14 @@ fun CharacterDialog(
                             .padding(4.dp)
                             .padding(top = 4.dp)
                             .padding(horizontal = 4.dp)
-                            .background(backgroundColor, shape = RoundedCornerShape(8.dp))
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(
+                                        backgroundColor,
+                                        Pink80
+                                    )
+                                ), shape = RoundedCornerShape(8.dp)
+                            )
                     ) {
                         Text(
                             modifier = Modifier.padding(16.dp),
