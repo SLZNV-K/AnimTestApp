@@ -18,15 +18,17 @@ data class NodeEntity(
     val foreground: Int = 0,
     val anim: Int = 0,
     @ColumnInfo(name = "characterType", defaultValue = "VOICE_OVER")
-    val characterType: CharacterType = CharacterType.VOICE_OVER
-) {
+    val characterType: CharacterType = CharacterType.VOICE_OVER,
+    val scene: Int = 0,
+    ) {
     fun toDto() = Node(
         id = id,
         message = message,
         edges = edges,
         foreground = foreground,
         anim = anim,
-        characterType = characterType
+        characterType = characterType,
+        scene = scene
     )
 }
 

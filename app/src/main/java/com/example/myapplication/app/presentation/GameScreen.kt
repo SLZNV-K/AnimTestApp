@@ -56,7 +56,7 @@ import kotlinx.coroutines.delay
 fun MainUiComposable(viewModel: GameViewModel) {
     val nodes by viewModel.allNodes.collectAsState(emptyList())
     val currentNode = viewModel.currentNode
-    MainUiComposable(nodes = nodes, currentNode) { viewModel.updateCurrentNode(it) }
+    MainUiComposable(nodes = nodes, currentNode = currentNode) { viewModel.updateCurrentNode(it) }
 }
 
 @Composable

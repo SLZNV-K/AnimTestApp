@@ -13,7 +13,7 @@ import com.example.myapplication.data.entity.TranslationsEdgeMessageEntity
 
 @Database(
     entities = [NodeEntity::class, TranslationNodeMessageEntity::class, TranslationsEdgeMessageEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(NodeTypeConverter::class)

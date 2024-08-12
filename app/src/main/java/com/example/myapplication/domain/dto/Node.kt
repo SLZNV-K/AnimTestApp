@@ -6,7 +6,8 @@ data class Node(
     var edges: Edges = Edges(),
     val foreground: Int = 0,
     val anim: Int = 0,
-    val characterType: CharacterType = CharacterType.VOICE_OVER
+    val characterType: CharacterType = CharacterType.VOICE_OVER,
+    val scene: Int = 0,
 )
 
 enum class CharacterType(displayName: String) {
