@@ -45,6 +45,7 @@ import com.example.myapplication.app.presentation.components.CharacterDialog
 import com.example.myapplication.app.presentation.theme.Pink40
 import com.example.myapplication.app.presentation.theme.Purple40
 import com.example.myapplication.app.presentation.util.splitBitmap
+import com.example.myapplication.domain.dto.Edge
 import com.example.myapplication.domain.dto.Node
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -77,10 +78,9 @@ private fun MainUiComposable(
     )
 
     LaunchedEffect(nodes) {
-        if (currentNode == null && nodes.isNotEmpty()) {
-            currentNodeValue = nodes.firstOrNull { it.id == 1 }
-            println("Current Node: $currentNodeValue")
-        } else currentNodeValue = currentNode
+        currentNodeValue = if (currentNode == null && nodes.isNotEmpty()) {
+            nodes.firstOrNull { it.id == 1 }
+        } else currentNode
 
         // Запуск анимации появления при изменении узла
         visible = false
@@ -128,6 +128,7 @@ private fun MainUiComposable(
                                         val nextNode =
                                             nodes.firstOrNull { it.id == edge.nextNodeId }
                                         if (nextNode != null) {
+                                            savePoints(edge)
                                             currentNodeValue = nextNode
                                             updateCurrentNode(nextNode)
                                         }
@@ -146,6 +147,15 @@ private fun MainUiComposable(
             }
         }
     }
+}
+
+var logicPoints: Int = 0
+var empathyPoints: Int = 0
+var equanimityPoints: Int = 0
+private fun savePoints(pickedEdge: Edge) {
+    logicPoints += pickedEdge.logicPoints
+    empathyPoints += pickedEdge.empathyPoints
+    equanimityPoints += pickedEdge.equanimityPoints
 }
 
 @Composable
